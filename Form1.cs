@@ -23,6 +23,7 @@ namespace _9_ADONET
             contatoDAO.Excluir(id);
             CarregarDataGriView();
 
+
         }
         private void CarregarDataGriView()
         {
@@ -35,8 +36,16 @@ namespace _9_ADONET
             DataTable dataTable = contatoDao.GetContatos();
             dgvAgenda.DataSource = dataTable;
             dgvAgenda.Refresh();
+            CarregarStatusStrip();
         }
-
+        
+        private void CarregarStatusStrip()
+        {
+            ContatoDAO contatoDao = new ContatoDAO();
+            string quantidadeContatos = contatoDao.ContarUsuarios();
+            stsInfoUsuarios.Items[0].Text = quantidadeContatos.ToString() +" usúario(s)";
+        }
+        
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             frmIncluirAlterarContato form = new frmIncluirAlterarContato();

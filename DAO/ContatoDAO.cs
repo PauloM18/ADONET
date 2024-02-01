@@ -1,4 +1,5 @@
 ﻿using _9_ADONET.Classes;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -38,7 +39,16 @@ namespace _9_ADONET.DAO
             DbCommand comando = DAOUtils.GetComando(conexao);
             comando.CommandType = CommandType.Text;
             comando.CommandText = "DELETE FROM CONTATOS WHERE ID = @id";
-            comando.Parameters.Add(new SqlParameter("@id", id));
+            //SQL SERVE
+            //comando.Parameters.Add(new SqlParameter("@id", id));
+
+            //MYSQL
+            comando.Parameters.Add(new MySqlParameter("@id", id));
+
+            //APP.CONFIG
+            //comando.Parameters.Add(DAOUtils.GetParametro("@id", id));
+            //APP.CONFIG
+
             comando.ExecuteNonQuery();
         }
         public void Inserir(Contato contato)
@@ -47,9 +57,21 @@ namespace _9_ADONET.DAO
             DbCommand comando = DAOUtils.GetComando(conexao);
             comando.CommandType = CommandType.Text;
             comando.CommandText = "INSERT INTO CONTATOS (NOME, EMAIL, TELEFONE) VALUES (@nome, @email, @telefone)";
-            comando.Parameters.Add(new SqlParameter("@nome", contato.Nome));
-            comando.Parameters.Add(new SqlParameter("@email", contato.Email));
-            comando.Parameters.Add(new SqlParameter("@telefone", contato.Telefone));
+            //SQL SERVE
+            //comando.Parameters.Add(new SqlParameter("@nome", contato.Nome));
+            //comando.Parameters.Add(new SqlParameter("@email", contato.Email));
+            //comando.Parameters.Add(new SqlParameter("@telefone", contato.Telefone));
+
+            //MYSQL
+            comando.Parameters.Add(new MySqlParameter("@nome", contato.Nome));
+            comando.Parameters.Add(new MySqlParameter("@email", contato.Email));
+            comando.Parameters.Add(new MySqlParameter("@telefone", contato.Telefone));
+
+            //APP.CONFIG
+            //comando.Parameters.Add(DAOUtils.GetParametro("@nome", contato.Nome));
+            //comando.Parameters.Add(DAOUtils.GetParametro("@email", contato.Email));
+            //comando.Parameters.Add(DAOUtils.GetParametro("@telefone", contato.Telefone));
+            //APP.CONFIG
             comando.ExecuteNonQuery();
         }
         public void Atualizar(Contato contato)
@@ -58,11 +80,33 @@ namespace _9_ADONET.DAO
             DbCommand comando = DAOUtils.GetComando(conexao);
             comando.CommandType = CommandType.Text;
             comando.CommandText = "UPDATE CONTATOS SET NOME = @nome, EMAIL = @email, TELEFONE = @telefone WHERE ID = @id";
-            comando.Parameters.Add(new SqlParameter("@nome", contato.Nome));
-            comando.Parameters.Add(new SqlParameter("@email", contato.Email));
-            comando.Parameters.Add(new SqlParameter("@telefone", contato.Telefone));
-            comando.Parameters.Add(new SqlParameter("@id", contato.Id));
+            //SQL SERVE
+            //comando.Parameters.Add(new SqlParameter("@nome", contato.Nome));
+            //comando.Parameters.Add(new SqlParameter("@email", contato.Email));
+            //comando.Parameters.Add(new SqlParameter("@telefone", contato.Telefone));
+            //comando.Parameters.Add(new SqlParameter("@id", contato.Id));
+
+            //MYSQL
+            comando.Parameters.Add(new MySqlParameter("@nome", contato.Nome));
+            comando.Parameters.Add(new MySqlParameter("@email", contato.Email));
+            comando.Parameters.Add(new MySqlParameter("@telefone", contato.Telefone));
+            comando.Parameters.Add(new MySqlParameter("@id", contato.Id));
+
+            //APP.CONFIG
+            //comando.Parameters.Add(DAOUtils.GetParametro("@nome", contato.Nome));
+            //comando.Parameters.Add(DAOUtils.GetParametro("@email", contato.Email));
+            //comando.Parameters.Add(DAOUtils.GetParametro("@telefone", contato.Telefone));
+            //comando.Parameters.Add(DAOUtils.GetParametro("@id", contato.Id));
+            //APP.CONFIG
             comando.ExecuteNonQuery();
+        }
+        public string ContarUsuarios()
+        {
+            DbConnection conexao = DAOUtils.GetConexao();
+            DbCommand comando = DAOUtils.GetComando(conexao);
+            comando.CommandType = CommandType.Text;
+            comando.CommandText = "SELECT COUNT(*) FROM CONTATOS";
+            return comando.ExecuteScalar().ToString();
         }
     }
 }
